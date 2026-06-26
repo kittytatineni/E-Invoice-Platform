@@ -1,47 +1,57 @@
-💸 E-Invoice Processing API
-A RESTful API for generating, transforming, validating, and delivering e-invoices.
-Developed for SENG2021, this project implements a complete, production-style invoice processing pipeline using FastAPI, structured APIs, and modern backend practices.
+# 💸 E-Invoice Processing API
 
-🚀 Overview
+A RESTful API for generating, transforming, validating, and delivering e-invoices.
+
+Developed for **SENG2021**, this project implements a complete, production-style invoice processing pipeline using FastAPI, structured APIs, and modern backend practices.
+
+---
+
+## 🚀 Overview
+
 This API provides an end-to-end workflow for handling invoices:
 
-Generation – Convert human-readable input into structured invoice data
-Transformation – Convert structured data into UBL-compliant XML
-Validation – Validate invoices using internal rules and external APIs
-Delivery – Send validated invoices via email
+1. **Generation** – Convert human-readable input into structured invoice data  
+2. **Transformation** – Convert structured data into UBL-compliant XML  
+3. **Validation** – Validate invoices using internal rules and external APIs  
+4. **Delivery** – Send validated invoices via email  
 
 The API is versioned:
 
-v1 → baseline implementation
-v2 → improved validation, storage, and delivery features
+- **v1** → baseline implementation  
+- **v2** → improved validation, storage, and delivery features  
 
+---
 
-🛠️ Tech Stack
+## 🛠 Tech Stack
 
-Backend: FastAPI (Python 3.12)
-Database: PostgreSQL (via SQLAlchemy ORM) (SQLite used in testing)
-Authentication: JWT Bearer Tokens
-External Integration: DevEx validation API
-Deployment: Render
-CI/CD: GitLab CI (lint + test pipeline)
-Documentation: OpenAPI 3 (Swagger UI)
+- **Backend:** FastAPI (Python 3.12)
+- **Database:** PostgreSQL (via SQLAlchemy ORM) *(SQLite used in testing)*
+- **Authentication:** JWT Bearer Tokens
+- **External Integration:** DevEx validation API
+- **Deployment:** Render
+- **CI/CD:** GitLab CI (lint + test pipeline)
+- **Documentation:** OpenAPI 3 (Swagger UI)
 
+---
 
-📦 Features
+## 📦 Features
 
-RESTful, versioned API (/v1, /v2)
-Full invoice lifecycle pipeline
-JWT authentication with Swagger integration
-XML transformation and validation
-External validation proxy (DevEx API)
-Email delivery (v2)
-Structured error handling and response models
-Modular architecture (routes, services, schemas)
-Automated testing with pytest
-Linting with ruff
+- RESTful, versioned API (`/v1`, `/v2`)
+- Full invoice lifecycle pipeline
+- JWT authentication with Swagger integration
+- XML transformation and validation
+- External validation proxy (DevEx API)
+- Email delivery (v2)
+- Structured error handling and response models
+- Modular architecture (routes, services, schemas)
+- Automated testing with `pytest`
+- Linting with `ruff`
 
+---
 
-📁 Project Structure
+## 📁 Project Structure
+
+```
 app/
 ├── routes/           # API endpoints (generation, transform, validate, deliver)
 ├── services/         # Business logic layer
@@ -57,118 +67,159 @@ alembic/              # Database migrations
 alembic.ini           # Alembic configuration
 
 .gitlab-ci.yml        # CI pipeline (lint + tests)
+```
 
-⚙️ Local Setup
+---
+
+## ⚙️ Local Setup
+
 This project provides a setup script to initialise the development environment.
-Run the setup script
+
+### Run the setup script
+
+```bash
 bash setup_local.sh
+```
+
 This will:
 
-Create and activate a virtual environment
-Install all required dependencies
-Configure environment variables (if applicable)
+- Create and activate a virtual environment  
+- Install all required dependencies  
+- Configure environment variables (if applicable)  
 
+---
 
-▶️ Running the Application
+## ▶️ Running the Application
+
+```bash
 uvicorn app.main:app --reload
+```
+
 Then open:
 
-Swagger UI: http://127.0.0.1:8000/docs
-Health check: http://127.0.0.1:8000/health
-DB check: http://127.0.0.1:8000/db/ping
+- Swagger UI: http://127.0.0.1:8000/docs  
+- Health check: http://127.0.0.1:8000/health  
+- DB check: http://127.0.0.1:8000/db/ping  
 
+---
 
-🔐 Authentication
-This API uses JWT Bearer authentication.
-Using Swagger:
+## 🔐 Authentication
 
-Click Authorize
-Enter:
+This API uses **JWT Bearer authentication**.
 
+### Using Swagger:
+
+1. Click **Authorize**
+2. Enter:
+
+```
 Bearer <your_token>
+```
 
-Access protected endpoints
+3. Access protected endpoints
 
+---
 
-📘 API Endpoints
-Generation
+## 📘 API Endpoints
 
-POST /v1/generation/invoices
-POST /v2/generation/invoices
+### Generation
+- `POST /v1/generation/invoices`
+- `POST /v2/generation/invoices`
 
-Transformation
+### Transformation
+- `POST /v1/transform/invoices/{invoice_id}`
+- `POST /v2/transform/invoices/{invoice_id}`
 
-POST /v1/transform/invoices/{invoice_id}
-POST /v2/transform/invoices/{invoice_id}
+### Validation
+- `POST /v1/validate/invoices/{invoice_id}`
+- `POST /v2/validate/invoices/{invoice_id}`
+- `POST /v2/validate` *(raw XML validation)*
 
-Validation
+### External Validation (DevEx Proxy)
+- `POST /external/validate-doc/{document_type}`
 
-POST /v1/validate/invoices/{invoice_id}
-POST /v2/validate/invoices/{invoice_id}
-POST /v2/validate (raw XML validation)
+### Delivery (v2 only)
+- `POST /v2/deliver/invoices/{invoice_id}`
 
-External Validation (DevEx Proxy)
+---
 
-POST /external/validate-doc/{document_type}
+## 🧪 Testing
 
-Delivery (v2 only)
+Testing is automated using **pytest** and integrated into CI.
 
-POST /v2/deliver/invoices/{invoice_id}
-
-
-🧪 Testing
-Testing is automated using pytest and integrated into CI.
 Run locally:
+
+```bash
 pytest
+```
+
 Tests include:
 
-Route testing with FastAPI TestClient
-Service layer validation
-Mocked external dependencies
-Auth overrides for isolated testing
+- Route testing with FastAPI `TestClient`
+- Service layer validation
+- Mocked external dependencies
+- Auth overrides for isolated testing
 
+---
 
-🔄 CI/CD Pipeline
+## 🔄 CI/CD Pipeline
+
 GitLab CI pipeline includes:
 
-Dependency installation
-Linting with ruff
-Automated testing with pytest
+- Dependency installation
+- Linting with `ruff`
+- Automated testing with `pytest`
 
-Pipeline runs on pushes to main.
+Pipeline runs on pushes to `main`.
 
-🧱 Database & Migrations
-This project uses Alembic for database migrations.
-Run migrations:
+---
+
+## 🧱 Database & Migrations
+
+This project uses **Alembic** for database migrations.
+
+### Run migrations:
+
+```bash
 alembic upgrade head
-Create a new migration:
+```
+
+### Create a new migration:
+
+```bash
 alembic revision --autogenerate -m "description"
+```
 
-📊 API Design Notes
+---
 
-Built using OpenAPI 3 specification
-Strong typing via Pydantic schemas
-Consistent response models across endpoints
-Clear error handling (400, 401, 404, 500)
-Separation of concerns:
+## 📊 API Design Notes
 
-routes → HTTP layer
-services → business logic
-schemas → validation
+- Built using **OpenAPI 3 specification**
+- Strong typing via Pydantic schemas
+- Consistent response models across endpoints
+- Clear error handling (400, 401, 404, 500)
+- Separation of concerns:
+  - routes → HTTP layer
+  - services → business logic
+  - schemas → validation
 
+---
 
-🤝 Contributing
+## 🤝 Contributing
 
-Create a feature branch
-Make changes
-Run lint + tests
-Submit a merge request
+1. Create a feature branch  
+2. Make changes  
+3. Run lint + tests  
+4. Submit a merge request  
 
+---
 
-👥 Authors
+## 👥 Authors
 
-Dollarsigns Team (SENG2021)
+- Dollarsigns Team (SENG2021)
 
+---
 
-📄 License
+## 📄 License
+
 This project is for academic purposes only.
