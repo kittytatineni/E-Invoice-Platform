@@ -46,6 +46,8 @@ The API is versioned:
 - Modular architecture (routes, services, schemas)
 - Automated testing with `pytest`
 - Linting with `ruff`
+- Batch processing
+- Exporting in various formats (pdf, doc, xml)
 
 ---
 
@@ -62,6 +64,9 @@ app/
 ├── config.py         # Application configuration
 ├── templates/        # HTML templates (landing page)
 ├── main.py           # FastAPI entry point
+├── repositories/     # FastAPI entry point
+├── frontend/         # Frontend routes and UI endpoints
+├── utils/            # Send via Email
 
 alembic/              # Database migrations
 alembic.ini           # Alembic configuration
