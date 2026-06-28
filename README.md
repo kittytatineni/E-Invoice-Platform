@@ -64,7 +64,7 @@ app/
 ├── config.py         # Application configuration
 ├── templates/        # HTML templates (landing page)
 ├── main.py           # FastAPI entry point
-├── repositories/     # FastAPI entry point
+├── repositories/     # Invoice Database functions
 ├── frontend/         # Frontend routes and UI endpoints
 ├── utils/            # Send via Email
 
